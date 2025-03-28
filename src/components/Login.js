@@ -28,7 +28,7 @@ function Login() {
             setMessage(resp.message);
 
             if(resp.success){
-                navigate('/home');
+                navigate('/predictor');
             }
 
         } catch (error) {
