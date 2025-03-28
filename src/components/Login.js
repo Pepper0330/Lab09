@@ -12,18 +12,25 @@ function Login() {
         e.preventDefault();
         
         try {
-            const response = await fetch('PLACE ENDPOINT HERE');
-            const users = await response.json();
-            const validUser = users.find(user => 
-                user.username === username && user.email === password
-            );
+            const response = await fetch('http://127.0.0.1:5000/validate_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'username': username, 'password': password }),
+            });
 
-            if (validUser) {
-                setMessage('Login successful! Redirecting...');
-                setTimeout(() => navigate('REDIRECT TO'), 2000);
-            } else {
-                setMessage('Invalid username or password!');
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data!');
             }
+
+            const resp = await response.json();
+            setMessage(resp.message);
+
+            if(resp.success){
+                navigate('/home');
+            }
+
         } catch (error) {
             setMessage('Failed to fetch user data!');
         }
