@@ -53,6 +53,7 @@ def predict_house_price():
         cats,
         dogs
     ]
+
     sample_df = pd.DataFrame([sample_data], columns=[
         'city', 'province', 'latitude', 'longitude', 'lease_term',
         'type', 'beds', 'baths', 'sq_feet', 'furnishing',
@@ -64,4 +65,4 @@ def predict_house_price():
     return jsonify({"predicted_price": float(predicted_price[0])})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login.js'
 import './App.css';
+import Predictor from './components/Predictor.js'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/predictor" element={<Predictor />} />
       </Routes>
       </BrowserRouter>
     </div>
