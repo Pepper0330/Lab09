@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import './Predictor.css';
 
 function Predictor() {
     const [city, setCity] = useState('');
@@ -16,6 +16,7 @@ function Predictor() {
     const [smoking, setSmoking] = useState('');
     const [pets, setPets] = useState(false);
     const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState(''); // "success" or "error"
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -47,10 +48,12 @@ function Predictor() {
             return response.json();
         })
         .then(data => {
-            setMessage("Predicted House Price: $" + data.predicted_price);
+            setMessage("Predicted Rent Price: $" + data.predicted_price);
+            setMessageType("success"); // Success case
         })
         .catch(error => {
-            setMessage('Failed to fetch user data!');
+            setMessage('Failed to fetch house price prediction!');
+            setMessageType("error"); // Error case
         });
     };
 
@@ -158,9 +161,9 @@ function Predictor() {
                     required
                 >
                     <option value="">Select Furnishing Option</option>
-                    <option value="Unfurnished">Fully Furnished</option>
-                    <option value="Partially Furnished">Unfurnished</option>
-                    <option value="Fully Furnished">Partially Furnished</option>
+                    <option value="Unfurnished">Unfurnished</option>
+                    <option value="Partially Furnished">Partially Furnished</option>
+                    <option value="Fully Furnished">Fully Furnished</option>
                 </select>
 
                 <label htmlFor="smoking">Smoking:</label>
@@ -184,10 +187,14 @@ function Predictor() {
                     onChange={(e) => setPets(e.target.checked)}
                 />
 
-                <button type="submit" className="main-button">Submit</button>
-            </form>
+                <button type="submit" className="main-button">Predict</button>
 
-            {message && <div style={{ margin: '20px', padding: '10px' }}>{message}</div>}
+                {message && (
+                    <div className={`prediction-box ${messageType === "success" ? "prediction-success" : "prediction-error"}`}>
+                        {message}
+                    </div>
+                )}
+            </form>
         </main>
     );
 }
